@@ -1,10 +1,14 @@
+const dns = require("dns/promises");
+
+// Forzar servidores DNS: Google y Cloudflare
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://lufranfa321:lufranfa0610@cursadanodejs.ls9ii.mongodb.net/NodeMod3Cohorte5')
+mongoose.connect('mongodb+srv://grupo-07:grupo-07@cluster0.blryo.mongodb.net/NodeMod3Cohorte5')
 .then(() => console.log('Conexión exitosa a MongoDB'))
-.catch(error => console.error('Error al conectar a MongoDB'));
+.catch((error) => console.log('Error al conectar a MongoDB', error));
 
-const superheroSchema = new mangoose.Schema({
+const superheroSchema = new mongoose.Schema({
     nombreSuperHeroe: { type: String, required: true},
     nombreReal: { type: String, required: true},
     edad: { type: Number, min: 0},
@@ -15,7 +19,7 @@ const superheroSchema = new mangoose.Schema({
     enemigos: [String],
     CreatedAt: {type: Date, default: Date.now},
     creador: String
-}, {collection: 'Grupo-XX'});
+}, {collection: 'Grupo-07'});
 
 const SuperHeroe = mongoose.model('SuperHeroe', superheroSchema);
 
@@ -37,7 +41,7 @@ async function insertSuperHero() {
 
 insertSuperHero();
 
-async function updateSuperHero() {
+async function updateSuperHero(nombreSuperHeroe) {
     const result = await SuperHeroe.updateOne(
         {nombreSuperHeroe: nombreSuperHeroe},
         {$set: { edad: 26} }
@@ -47,7 +51,7 @@ async function updateSuperHero() {
 
 updateSuperHero('Spiderman');
 
-async function deleteSuperHero() {
+async function deleteSuperHero(nombreSuperHeroe) {
     const result = await SuperHeroe.deleteOne({nombreSuperHeroe: nombreSuperHeroe});
     console.log('Superhéroe eliminado:', result);
 }
@@ -59,4 +63,4 @@ async function findSuperHeroes() {
     console.log('Superhéroes encontrados:', heroes);
 }
 
-findSuperHeroes();
+findSuperHeroes(); 
